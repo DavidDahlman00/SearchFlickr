@@ -32,15 +32,19 @@ class PhotoGridAdapter(fragment : Fragment) : ListAdapter<ImageData,
     ):
         RecyclerView.ViewHolder(binding.root) {
 
+        lateinit var thisPhoto: ImageData
         init{
             binding.flickrGridImage.setOnClickListener {
                 openImageDialog()
+                MainViewModel.focusedImage = thisPhoto
                 Log.d("open Image", "????")
+                Log.d("this photo title", MainViewModel.focusedImage.title)
             }
         }
 
         fun bind(photo: ImageData) {
             Log.d("ViewHolder", "Item exist")
+            thisPhoto = photo
             binding.photo = photo
             binding.executePendingBindings()
         }

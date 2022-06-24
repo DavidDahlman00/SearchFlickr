@@ -61,5 +61,6 @@ class MainViewModel: ViewModel() {
 
     companion object{
        lateinit var BASE_URL: String
+       lateinit var focusedImage: ImageData
     }
 }
