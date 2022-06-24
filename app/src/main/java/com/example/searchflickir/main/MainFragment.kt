@@ -26,7 +26,7 @@ class MainFragment : Fragment() {
 
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
-        binding.photosGrid.adapter = PhotoGridAdapter()
+        binding.photosGrid.adapter = PhotoGridAdapter(this)
 
         binding.mainSearchBtn.setOnTouchListener { v, event ->
             when (event.action) {
