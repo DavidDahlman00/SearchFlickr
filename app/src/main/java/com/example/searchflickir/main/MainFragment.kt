@@ -12,6 +12,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import com.example.searchflickir.R
 import com.example.searchflickir.databinding.FragmentMainBinding
+import com.example.searchflickir.extraFragments.BottomSheetSettings
+import com.example.searchflickir.extraFragments.ImageFragment
 
 class MainFragment : Fragment() {
 
@@ -23,6 +25,7 @@ class MainFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val binding = FragmentMainBinding.inflate(inflater)
+        val settings = BottomSheetSettings()
 
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
@@ -42,6 +45,31 @@ class MainFragment : Fragment() {
             false
         }
 
+        binding.mainMenuBtn.setOnClickListener {
+            fragmentManager?.let { it1 -> settings.show(it1,"settings_bottom_sheet") }
+        }
+      /*  binding.mainMenuBtn.setOnTouchListener { v, event ->
+            when (event.action) {
+                MotionEvent.ACTION_DOWN -> {
+                    v.background.setColorFilter(R.color.colorAccent, PorterDuff.Mode.SRC_ATOP)
+                    v.invalidate()
+                }
+                MotionEvent.ACTION_UP -> {
+                    v.background.clearColorFilter()
+                    v.invalidate()
+                }
+            }
+            false
+        }*/
+
+
+
+
         return binding.root
+    }
+
+    fun openSettings(){
+        val settingsDialog = BottomSheetSettings()
+        settingsDialog.show(this.parentFragmentManager, "imageDialog")
     }
 }
