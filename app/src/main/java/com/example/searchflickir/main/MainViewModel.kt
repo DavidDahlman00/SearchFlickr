@@ -8,6 +8,8 @@ import androidx.lifecycle.viewModelScope
 import com.example.searchflickir.MockedData
 import com.example.searchflickir.network.FlickrApi
 import com.example.searchflickir.network.ImageData
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.launch
 
 enum class FlickrApiStatus { LOADING, ERROR, DONE }
@@ -22,12 +24,15 @@ class MainViewModel: ViewModel() {
 
     private val _photos = MutableLiveData<List<ImageData>>()
     val photos: LiveData<List<ImageData>> = _photos
-
+    val sType = object : TypeToken<List<ImageData>>() { }.type
+    //val otherList = gson.fromJson<List<String>>(jsonString, sType)
     init {
         Log.d("run init", "yes")
         BASE_URL = setUrl()
         getFlickirPhotos()
-        _photos.value = MockedData.data
+        _photos.value = Gson().fromJson<List<ImageData>>(MockedData.json, sType)
+
+            //MockedData.data
     }
 
     private fun getFlickirPhotos() {

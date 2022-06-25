@@ -25,7 +25,7 @@ class MainFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val binding = FragmentMainBinding.inflate(inflater)
-        val settings = BottomSheetSettings()
+        val settings = BottomSheetSettings(viewModel)
 
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
@@ -66,10 +66,5 @@ class MainFragment : Fragment() {
 
 
         return binding.root
-    }
-
-    fun openSettings(){
-        val settingsDialog = BottomSheetSettings()
-        settingsDialog.show(this.parentFragmentManager, "imageDialog")
     }
 }
