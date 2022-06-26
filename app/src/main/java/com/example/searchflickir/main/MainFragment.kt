@@ -48,20 +48,10 @@ class MainFragment : Fragment() {
         binding.mainMenuBtn.setOnClickListener {
             fragmentManager?.let { it1 -> settings.show(it1,"settings_bottom_sheet") }
         }
-      /*  binding.mainMenuBtn.setOnTouchListener { v, event ->
-            when (event.action) {
-                MotionEvent.ACTION_DOWN -> {
-                    v.background.setColorFilter(R.color.colorAccent, PorterDuff.Mode.SRC_ATOP)
-                    v.invalidate()
-                }
-                MotionEvent.ACTION_UP -> {
-                    v.background.clearColorFilter()
-                    v.invalidate()
-                }
-            }
-            false
-        }*/
 
+        binding.mainSearchBtn.setOnClickListener {
+            viewModel.searchForNewPhotos("fish")
+        }
 
 
 
