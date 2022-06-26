@@ -15,7 +15,7 @@ import retrofit2.http.Query
 import retrofit2.http.Tag
 
 private val BASE_URL = MainViewModel.BASE_URL
-private const val key = "0738d55ca8605aa901d56aadcf9e2dfa"//Enter private key
+private const val key = ""//Enter private key
 
 
 val okHttpClient = OkHttpClient()
