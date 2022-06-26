@@ -7,12 +7,15 @@ import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Response
+import retrofit2.Call
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.GET
+import retrofit2.http.Path
+import retrofit2.http.Query
+import retrofit2.http.Tag
 
 private val BASE_URL = MainViewModel.BASE_URL
-private const val key = ""//Enter private key
-private val tag = MainViewModel.searchTag
+private const val key = "0738d55ca8605aa901d56aadcf9e2dfa"//Enter private key
 
 
 val okHttpClient = OkHttpClient()
@@ -31,8 +34,9 @@ val retrofit: Retrofit = Retrofit.Builder()
     .build()
 
 interface FlickrApiService {
-    @GET("?method=flickr.photos.search&format=json&nojsoncallback=1&text=fish&safe_search=1&per_page=20&api_key=$key")
-    suspend fun getPhotos() :  PhotosSearchResponse
+    @GET("?method=flickr.photos.search&format=json&nojsoncallback=1&safe_search=1&per_page=20&api_key=$key")
+
+    suspend fun getPhotos(@Query("text") text: String) : PhotosSearchResponse
 }
 
 object RequestInterceptor : Interceptor {
@@ -42,3 +46,4 @@ object RequestInterceptor : Interceptor {
         return chain.proceed(request)
     }
 }
+

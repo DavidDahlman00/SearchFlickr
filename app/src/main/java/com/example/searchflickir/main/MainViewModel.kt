@@ -8,16 +8,12 @@ import androidx.lifecycle.viewModelScope
 import com.example.searchflickir.MockedData
 import com.example.searchflickir.network.FlickrApi
 import com.example.searchflickir.network.ImageData
-import com.example.searchflickir.network.PhotosMetaData
 import com.example.searchflickir.network.PhotosSearchResponse
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.*
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
-import retrofit2.http.Url
-import java.net.URL
-import java.net.URLEncoder
 
 enum class FlickrApiStatus { LOADING, ERROR, DONE }
 
@@ -41,12 +37,12 @@ class MainViewModel: ViewModel() {
 
     }
 
-    private fun getFlickrPhotos() {
+    private fun getFlickrPhotos(searchText: String) {
         _loadingstatus.value = FlickrApiStatus.LOADING
         CoroutineScope(IO).launch {
             val listResult : PhotosSearchResponse
             try {
-                listResult  = FlickrApi.retrofitService.getPhotos()
+                listResult  = FlickrApi.retrofitService.getPhotos(text = searchText)
                 val photosList =  listResult.photos.photo.map{ photo ->
                     ImageData(id = photo.id, server = photo.server, secret = photo.secret, title = photo.title)}
                 setSuccessResult(photosList)
@@ -75,7 +71,7 @@ class MainViewModel: ViewModel() {
 
     fun searchForNewPhotos(searchText: String){
         searchTag = searchText
-        getFlickrPhotos()
+        getFlickrPhotos(searchText)
     }
 
 

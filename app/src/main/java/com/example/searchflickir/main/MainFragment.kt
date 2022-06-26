@@ -1,6 +1,7 @@
 package com.example.searchflickir.main
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.os.Bundle
@@ -9,6 +10,8 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.viewModels
 import com.example.searchflickir.R
 import com.example.searchflickir.databinding.FragmentMainBinding
@@ -50,7 +53,9 @@ class MainFragment : Fragment() {
         }
 
         binding.mainSearchBtn.setOnClickListener {
-            viewModel.searchForNewPhotos("fish")
+            val searchInput = binding.mainSearchText.text.toString().lowercase()
+            viewModel.searchForNewPhotos(searchInput)
+
         }
 
 
