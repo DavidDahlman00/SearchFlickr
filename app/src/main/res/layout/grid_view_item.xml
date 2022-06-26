@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="photo"
+            type="com.example.searchflickir.network.ImageData" />
+    </data>
+    <ImageView
+        android:id="@+id/flickr_grid_image"
+        android:layout_width="wrap_content"
+        app:imageUrl="@{photo.imageUrl}"
+        android:layout_height="170dp"
+        android:scaleType="fitXY"
+        android:adjustViewBounds="true"
+        android:padding="2dp"
+        tools:src="@tools:sample/backgrounds/scenic"/>
+</layout>
