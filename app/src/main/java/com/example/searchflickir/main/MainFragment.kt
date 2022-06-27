@@ -1,22 +1,19 @@
 package com.example.searchflickir.main
 
 import android.annotation.SuppressLint
-import android.content.Context
-import android.graphics.Color
 import android.graphics.PorterDuff
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.viewModels
 import com.example.searchflickir.R
 import com.example.searchflickir.databinding.FragmentMainBinding
 import com.example.searchflickir.extraFragments.BottomSheetSettings
-import com.example.searchflickir.extraFragments.ImageFragment
+import com.example.searchflickir.extraFragments.ErrorDialogFragment
 
 class MainFragment : Fragment() {
 
@@ -32,8 +29,8 @@ class MainFragment : Fragment() {
 
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
-        binding.photosGrid.adapter = PhotoGridAdapter(this)
 
+        binding.photosGrid.adapter = PhotoGridAdapter(this)
         binding.mainSearchBtn.setOnTouchListener { v, event ->
             when (event.action) {
                 MotionEvent.ACTION_DOWN -> {
@@ -55,11 +52,16 @@ class MainFragment : Fragment() {
         binding.mainSearchBtn.setOnClickListener {
             val searchInput = binding.mainSearchText.text.toString().lowercase()
             viewModel.searchForNewPhotos(searchInput)
-
         }
 
+        viewModel.loadingstatus.observe(viewLifecycleOwner) { status ->
+            Log.d("status", status.toString())
+            if (status == FlickrApiStatus.ERROR) {
+                val errorDialogFragment = ErrorDialogFragment(viewModel.status.value.toString())
+                errorDialogFragment.show(parentFragmentManager, "errorDialogFragment")
+            }
 
-
+        }
         return binding.root
     }
 }

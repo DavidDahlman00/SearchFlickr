@@ -4,7 +4,6 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.example.searchflickir.MockedData
 import com.example.searchflickir.network.FlickrApi
 import com.example.searchflickir.network.ImageData
@@ -28,13 +27,15 @@ class MainViewModel: ViewModel() {
     private val _photos = MutableLiveData<List<ImageData>>()
     val photos: LiveData<List<ImageData>> = _photos
     val sType = object : TypeToken<List<ImageData>>() { }.type
-    //val otherList = gson.fromJson<List<String>>(jsonString, sType)
+
     init {
-        Log.d("run init", "yes")
-
-       // getFlickrPhotos()
+       /* try {
+            _photos.value = Gson().fromJson<List<ImageData>>(MockedData.json, sType)
+        }catch (e: Exception){
+            _status.value = "Failure: ${e.message.toString()}"
+            _loadingstatus.value = FlickrApiStatus.ERROR
+        }*/
         _photos.value = Gson().fromJson<List<ImageData>>(MockedData.json, sType)
-
     }
 
     private fun getFlickrPhotos(searchText: String) {
@@ -42,21 +43,23 @@ class MainViewModel: ViewModel() {
         CoroutineScope(IO).launch {
             val listResult : PhotosSearchResponse
             try {
-                listResult  = FlickrApi.retrofitService.getPhotos(text = searchText)
+                listResult  = FlickrApi.retrofitService.getPhotos(text = searchText,
+                    numImages = numImagesToReturn,
+                    minUploadDate = minUploadDate)
                 val photosList =  listResult.photos.photo.map{ photo ->
                     ImageData(id = photo.id, server = photo.server, secret = photo.secret, title = photo.title)}
                 setSuccessResult(photosList)
             }catch (e: Exception) {
                 Log.d("errror", e.message.toString())
                 setFailResult(e.message.toString())
-            }
 
+            }
         }
     }
 
     private suspend fun setSuccessResult(data: List<ImageData>) {
         withContext(Main){
-            _status.value =  "Success"
+            _status.value =  ""
             _loadingstatus.value = FlickrApiStatus.DONE
             _photos.postValue(data)
         }
@@ -79,5 +82,7 @@ class MainViewModel: ViewModel() {
         var BASE_URL = "http://api.flickr.com/services/rest/"
         lateinit var focusedImage: ImageData
         lateinit var searchTag: String
+        var numImagesToReturn: String = "20"
+        var minUploadDate: String = "1970-01-01"
     }
 }

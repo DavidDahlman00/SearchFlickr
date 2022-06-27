@@ -1,10 +1,5 @@
 package com.example.searchflickir.network
 
-import com.squareup.moshi.Json
-
-
-
-
 data class ImageData(
     val id: String,
     val server: String,
