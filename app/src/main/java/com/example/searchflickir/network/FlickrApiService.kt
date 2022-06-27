@@ -32,11 +32,20 @@ val retrofit: Retrofit = Retrofit.Builder()
 
 interface FlickrApiService {
     @GET("?method=flickr.photos.search&format=json&nojsoncallback=1&safe_search=1&api_key=$key")
-
     suspend fun getPhotos(
         @Query("text") text: String,
         @Query("per_page") numImages: String,
         @Query("min_upload_date") minUploadDate: String
+    ) : PhotosSearchResponse
+
+    @GET("?method=flickr.photos.search&format=json&nojsoncallback=1&safe_search=1&api_key=$key")
+    suspend fun getPhotosLocal(
+        @Query("text") text: String,
+        @Query("per_page") numImages: String,
+        @Query("min_upload_date") minUploadDate: String,
+        @Query("lat") latitude: String,
+        @Query("lon") longitude: String,
+        @Query("radius") radius: String,
     ) : PhotosSearchResponse
 }
 

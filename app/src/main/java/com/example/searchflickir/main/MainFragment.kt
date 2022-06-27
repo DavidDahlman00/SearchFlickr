@@ -52,6 +52,8 @@ class MainFragment : Fragment() {
         binding.mainSearchBtn.setOnClickListener {
             val searchInput = binding.mainSearchText.text.toString().lowercase()
             viewModel.searchForNewPhotos(searchInput)
+            Log.d("latlong", "lat: ${MainViewModel.latitude}, long: ${MainViewModel.longitude}")
+            Log.d("latlong", "on : ${MainViewModel.useLocation.toString()}")
         }
 
         viewModel.loadingstatus.observe(viewLifecycleOwner) { status ->

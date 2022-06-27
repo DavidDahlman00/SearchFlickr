@@ -57,6 +57,28 @@ class MainViewModel: ViewModel() {
         }
     }
 
+    private fun getFlickrPhotosLocal(searchText: String) {
+        _loadingstatus.value = FlickrApiStatus.LOADING
+        CoroutineScope(IO).launch {
+            val listResult : PhotosSearchResponse
+            try {
+                listResult  = FlickrApi.retrofitService.getPhotosLocal(text = searchText,
+                    numImages = numImagesToReturn,
+                    minUploadDate = minUploadDate,
+                    latitude = latitude.toString(),
+                    longitude = longitude.toString(),
+                    radius = radius.toString())
+                val photosList =  listResult.photos.photo.map{ photo ->
+                    ImageData(id = photo.id, server = photo.server, secret = photo.secret, title = photo.title)}
+                setSuccessResult(photosList)
+            }catch (e: Exception) {
+                Log.d("errror", e.message.toString())
+                setFailResult(e.message.toString())
+
+            }
+        }
+    }
+
     private suspend fun setSuccessResult(data: List<ImageData>) {
         withContext(Main){
             _status.value =  ""
@@ -74,7 +96,11 @@ class MainViewModel: ViewModel() {
 
     fun searchForNewPhotos(searchText: String){
         searchTag = searchText
-        getFlickrPhotos(searchText)
+        if (useLocation){
+            getFlickrPhotosLocal(searchText)
+        }else{
+            getFlickrPhotos(searchText)
+        }
     }
 
 
@@ -84,5 +110,9 @@ class MainViewModel: ViewModel() {
         lateinit var searchTag: String
         var numImagesToReturn: String = "20"
         var minUploadDate: String = "1970-01-01"
+        var useLocation: Boolean = false
+        var latitude: Double = 59.0
+        var longitude: Double = 18.0
+        var radius: Int = 20
     }
 }
