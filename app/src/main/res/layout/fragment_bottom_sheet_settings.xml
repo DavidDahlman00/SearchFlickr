@@ -14,7 +14,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:paddingVertical="10dp"
-            android:paddingLeft="40dp"
+           android:paddingHorizontal="40dp"
+
             android:orientation="vertical">
 
             <TextView
@@ -39,27 +40,25 @@
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
-                <RadioGroup
+                <SeekBar
+                    android:id="@+id/settings_num_imagesseekBar"
+
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:min="10"
+                    android:max="200"
+                    android:progress="20"/>
 
-                    <RadioButton
-                        android:id="@+id/settings_num_images_radioBtn1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:minHeight="48dp"
-                        android:text="20" />
+                <TextView
+                    android:id="@+id/settings_num_numtext"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
 
-                    <RadioButton
-                        android:id="@+id/settings_num_images_radioBtn2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="2"
-                        android:minHeight="48dp"
-                        android:text="100" />
-                </RadioGroup>
+                    android:text="20"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:layout_gravity="center"/>
+
 
             </LinearLayout>
 
@@ -77,27 +76,31 @@
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
-                <RadioGroup
+                <Switch
+                    android:id="@+id/settings_created_afterswitch"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:minHeight="48dp"
+                    android:text="off" />
 
-                    <RadioButton
-                        android:id="@+id/settings_created_after_radioBtn1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:minHeight="48dp"
-                        android:text="@string/not_specified" />
+                <SeekBar
+                    android:id="@+id/settings_created_after_seekBar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="invisible"
+                    android:min="-120"
+                    android:max="-1"
+                    android:progress="-3"/>
 
-                    <RadioButton
-                        android:id="@+id/settings_created_after_radioBtn2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="2"
-                        android:minHeight="48dp"
-                        android:text="@string/_12_months_ago" />
-                </RadioGroup>
+                <TextView
+                    android:id="@+id/settings_created_after_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:visibility="invisible"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:layout_gravity="center"/>
 
             </LinearLayout>
             <LinearLayout

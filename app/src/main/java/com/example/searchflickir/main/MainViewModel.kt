@@ -1,6 +1,10 @@
 package com.example.searchflickir.main
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.util.Log
+import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -67,7 +71,7 @@ class MainViewModel: ViewModel() {
                     minUploadDate = minUploadDate,
                     latitude = latitude.toString(),
                     longitude = longitude.toString(),
-                    radius = radius.toString())
+                    radius = radius)
                 val photosList =  listResult.photos.photo.map{ photo ->
                     ImageData(id = photo.id, server = photo.server, secret = photo.secret, title = photo.title)}
                 setSuccessResult(photosList)
@@ -96,7 +100,7 @@ class MainViewModel: ViewModel() {
 
     fun searchForNewPhotos(searchText: String){
         searchTag = searchText
-        if (useLocation){
+        if (useLocation){ //&& isLocationAllowed){
             getFlickrPhotosLocal(searchText)
         }else{
             getFlickrPhotos(searchText)
@@ -109,10 +113,12 @@ class MainViewModel: ViewModel() {
         lateinit var focusedImage: ImageData
         lateinit var searchTag: String
         var numImagesToReturn: String = "20"
+        var useUploadDate: Boolean = false
         var minUploadDate: String = "1970-01-01"
+        var isLocationAllowed: Boolean = false
         var useLocation: Boolean = false
         var latitude: Double = 59.0
         var longitude: Double = 18.0
-        var radius: Int = 20
+        var radius: String = "20"
     }
 }

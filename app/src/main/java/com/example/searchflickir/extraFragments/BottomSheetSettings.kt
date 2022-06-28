@@ -10,6 +10,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SeekBar
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -29,7 +30,8 @@ class BottomSheetSettings(val viewModel: MainViewModel) :
     private var bottomSheetSettingsBinding : FragmentBottomSheetSettingsBinding?=null
     private lateinit var locationManager: LocationManager
     private val locationPermissionCode = 2
-
+    private var tmpMonthsAgo: String = monthsAgoToString(3)
+    private var tmpRadius: String = "3 miles"
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,24 +41,57 @@ class BottomSheetSettings(val viewModel: MainViewModel) :
         val binding = FragmentBottomSheetSettingsBinding.bind(view)
         bottomSheetSettingsBinding = binding
 
-        bottomSheetSettingsBinding?.settingsNumImagesRadioBtn1?.setOnClickListener {
-            MainViewModel.numImagesToReturn = "20"
+        bottomSheetSettingsBinding?.settingsNumImagesseekBar?.setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener{
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                MainViewModel.numImagesToReturn = progress.toString()
+                bottomSheetSettingsBinding?.settingsNumNumtext?.text = progress.toString()
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {
+
+            }
+
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {
+
+            }
+
+        })
+
+
+        bottomSheetSettingsBinding?.settingsCreatedAfterswitch?.setOnClickListener {
+            if (MainViewModel.useUploadDate){
+                MainViewModel.minUploadDate = "1970-01-01"
+                MainViewModel.useUploadDate = false
+                bottomSheetSettingsBinding?.settingsCreatedAfterswitch?.text = "off"
+                bottomSheetSettingsBinding?.settingsCreatedAfterSeekBar?.visibility = View.INVISIBLE
+                bottomSheetSettingsBinding?.settingsCreatedAfterText?.visibility = View.INVISIBLE
+            }else{
+                MainViewModel.minUploadDate = tmpMonthsAgo
+                MainViewModel.useUploadDate = true
+                bottomSheetSettingsBinding?.settingsCreatedAfterswitch?.text = "on"
+                bottomSheetSettingsBinding?.settingsCreatedAfterSeekBar?.visibility = View.VISIBLE
+                bottomSheetSettingsBinding?.settingsCreatedAfterText?.visibility = View.VISIBLE
+                bottomSheetSettingsBinding?.settingsCreatedAfterText?.text = tmpMonthsAgo
+            }
         }
 
-        bottomSheetSettingsBinding?.settingsNumImagesRadioBtn2?.setOnClickListener {
-            MainViewModel.numImagesToReturn = "100"
-        }
+        bottomSheetSettingsBinding?.settingsCreatedAfterSeekBar?.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                tmpMonthsAgo = monthsAgoToString(-progress)
+                MainViewModel.minUploadDate = monthsAgoToString(-progress)
+                bottomSheetSettingsBinding?.settingsCreatedAfterText?.text = monthsAgoToString(-progress)
+            }
 
-        bottomSheetSettingsBinding?.settingsCreatedAfterRadioBtn1?.setOnClickListener {
-            MainViewModel.minUploadDate = "1970-01-01"
-        }
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {
 
-        bottomSheetSettingsBinding?.settingsCreatedAfterRadioBtn2?.setOnClickListener {
-            val selectedTime = LocalDateTime.now().minusMonths(12)
-            val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-            val formatted = selectedTime.format(formatter)
-            MainViewModel.minUploadDate = formatted
-        }
+            }
+
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {
+
+            }
+
+        })
+
 
         bottomSheetSettingsBinding?.settingsLocationRadioBtn1?.setOnClickListener {
             MainViewModel.useLocation = false
@@ -65,8 +100,48 @@ class BottomSheetSettings(val viewModel: MainViewModel) :
         bottomSheetSettingsBinding?.settingsLocationRadioBtn2?.setOnClickListener {
             getLocation()
         }
+    /*
+        bottomSheetSettingsBinding?.settingsLocationSwitch?.setOnClickListener {
+            if (!MainViewModel.isLocationAllowed){
+                getLocation()
+            }
+            if (MainViewModel.useLocation){
+                MainViewModel.useLocation = false
+                bottomSheetSettingsBinding?.settingsLocationSwitch?.text = "off"
+                bottomSheetSettingsBinding?.settingsLocationSeekBar?.visibility = View.INVISIBLE
+                bottomSheetSettingsBinding?.settingsLocationSeekBar?.visibility = View.INVISIBLE
+            }else{
+                MainViewModel.useLocation = false
+                bottomSheetSettingsBinding?.settingsLocationSwitch?.text = "on"
+                bottomSheetSettingsBinding?.settingsLocationSeekBar?.visibility = View.VISIBLE
+                bottomSheetSettingsBinding?.settingsLocationSeekBar?.visibility = View.VISIBLE
+                bottomSheetSettingsBinding?.settingsLocationText?.text = tmpRadius
+            }
+        }
+
+        bottomSheetSettingsBinding?.settingsLocationSeekBar?.setOnSeekBarChangeListener(object :SeekBar.OnSeekBarChangeListener{
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+               MainViewModel.radius = progress.toString()
+                bottomSheetSettingsBinding?.settingsLocationText?.text = "$progress miles"
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {
+
+            }
+
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {
+
+            }
+
+        })*/
 
         return view
+    }
+
+    private fun monthsAgoToString(months: Int): String {
+        val selectedTime = LocalDateTime.now().minusMonths(months.toLong())
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+        return selectedTime.format(formatter)
     }
 
     private fun getLocation() {
@@ -100,3 +175,30 @@ class BottomSheetSettings(val viewModel: MainViewModel) :
     }
 
 }
+/*
+ XML to be done for seekbar
+ <Switch
+                    android:id="@+id/settings_location_switch"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="48dp"
+                    android:text="off" />
+
+                <SeekBar
+                    android:id="@+id/settings_location_seekBar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="invisible"
+                    android:min="1"
+                    android:max="20"
+                    android:progress="3"/>
+
+                <TextView
+                    android:id="@+id/settings_location_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:visibility="invisible"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:layout_gravity="center"/>*/
