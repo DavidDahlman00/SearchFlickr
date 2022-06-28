@@ -23,7 +23,7 @@ class MainFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         val binding = FragmentMainBinding.inflate(inflater)
         val settings = BottomSheetSettings(viewModel)
 
@@ -46,17 +46,17 @@ class MainFragment : Fragment() {
         }
 
         binding.mainMenuBtn.setOnClickListener {
-            fragmentManager?.let { it1 -> settings.show(it1,"settings_bottom_sheet") }
+            parentFragmentManager.let { it1 -> settings.show(it1,"settings_bottom_sheet") }
         }
 
         binding.mainSearchBtn.setOnClickListener {
             val searchInput = binding.mainSearchText.text.toString().lowercase()
             viewModel.searchForNewPhotos(searchInput)
             Log.d("latlong", "lat: ${MainViewModel.latitude}, long: ${MainViewModel.longitude}")
-            Log.d("latlong", "on : ${MainViewModel.useLocation.toString()}")
+            Log.d("latlong", "on : ${MainViewModel.useLocation}")
         }
 
-        viewModel.loadingstatus.observe(viewLifecycleOwner) { status ->
+        viewModel.loadingStatus.observe(viewLifecycleOwner) { status ->
             Log.d("status", status.toString())
             if (status == FlickrApiStatus.ERROR) {
                 val errorDialogFragment = ErrorDialogFragment(viewModel.status.value.toString())

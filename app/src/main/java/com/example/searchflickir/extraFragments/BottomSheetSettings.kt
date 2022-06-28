@@ -31,7 +31,6 @@ class BottomSheetSettings(val viewModel: MainViewModel) :
     private lateinit var locationManager: LocationManager
     private val locationPermissionCode = 2
     private var tmpMonthsAgo: String = monthsAgoToString(3)
-    private var tmpRadius: String = "3 miles"
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -164,6 +163,7 @@ class BottomSheetSettings(val viewModel: MainViewModel) :
         MainViewModel.longitude = ((location.longitude * 100).toInt() / 100.0)
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         if (requestCode == locationPermissionCode) {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {

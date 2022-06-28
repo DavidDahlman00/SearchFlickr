@@ -1,10 +1,6 @@
 package com.example.searchflickir.main
 
-import android.Manifest
-import android.content.pm.PackageManager
 import android.util.Log
-import androidx.core.content.ContentProviderCompat.requireContext
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -17,34 +13,31 @@ import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.*
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
+import java.lang.reflect.Type
 
 enum class FlickrApiStatus { LOADING, ERROR, DONE }
 
 class MainViewModel: ViewModel() {
 
-    private val _loadingstatus = MutableLiveData<FlickrApiStatus>()
-    val loadingstatus: LiveData<FlickrApiStatus> = _loadingstatus
+    private val _loadingStatus = MutableLiveData<FlickrApiStatus>()
+    val loadingStatus: LiveData<FlickrApiStatus> = _loadingStatus
 
     private val _status = MutableLiveData<String>()
     val status: LiveData<String> = _status
 
     private val _photos = MutableLiveData<List<ImageData>>()
     val photos: LiveData<List<ImageData>> = _photos
-    val sType = object : TypeToken<List<ImageData>>() { }.type
+    private val sType: Type = object : TypeToken<List<ImageData>>() { }.type
 
     init {
-       /* try {
-            _photos.value = Gson().fromJson<List<ImageData>>(MockedData.json, sType)
-        }catch (e: Exception){
-            _status.value = "Failure: ${e.message.toString()}"
-            _loadingstatus.value = FlickrApiStatus.ERROR
-        }*/
         _photos.value = Gson().fromJson<List<ImageData>>(MockedData.json, sType)
     }
 
+    private var job: CoroutineScope? = CoroutineScope(IO)
+
     private fun getFlickrPhotos(searchText: String) {
-        _loadingstatus.value = FlickrApiStatus.LOADING
-        CoroutineScope(IO).launch {
+        _loadingStatus.value = FlickrApiStatus.LOADING
+        job?.launch {
             val listResult : PhotosSearchResponse
             try {
                 listResult  = FlickrApi.retrofitService.getPhotos(text = searchText,
@@ -62,8 +55,8 @@ class MainViewModel: ViewModel() {
     }
 
     private fun getFlickrPhotosLocal(searchText: String) {
-        _loadingstatus.value = FlickrApiStatus.LOADING
-        CoroutineScope(IO).launch {
+        _loadingStatus.value = FlickrApiStatus.LOADING
+        job?.launch {
             val listResult : PhotosSearchResponse
             try {
                 listResult  = FlickrApi.retrofitService.getPhotosLocal(text = searchText,
@@ -86,7 +79,7 @@ class MainViewModel: ViewModel() {
     private suspend fun setSuccessResult(data: List<ImageData>) {
         withContext(Main){
             _status.value =  ""
-            _loadingstatus.value = FlickrApiStatus.DONE
+            _loadingStatus.value = FlickrApiStatus.DONE
             _photos.postValue(data)
         }
     }
@@ -94,7 +87,7 @@ class MainViewModel: ViewModel() {
     private suspend fun setFailResult(string: String) {
         withContext(Main){
             _status.value = "Failure: $string"
-            _loadingstatus.value = FlickrApiStatus.ERROR
+            _loadingStatus.value = FlickrApiStatus.ERROR
         }
     }
 
@@ -107,6 +100,11 @@ class MainViewModel: ViewModel() {
         }
     }
 
+    override fun onCleared() {
+        super.onCleared()
+        job?.cancel()
+        job = null
+    }
 
     companion object{
         var BASE_URL = "http://api.flickr.com/services/rest/"
@@ -115,7 +113,6 @@ class MainViewModel: ViewModel() {
         var numImagesToReturn: String = "20"
         var useUploadDate: Boolean = false
         var minUploadDate: String = "1970-01-01"
-        var isLocationAllowed: Boolean = false
         var useLocation: Boolean = false
         var latitude: Double = 59.0
         var longitude: Double = 18.0

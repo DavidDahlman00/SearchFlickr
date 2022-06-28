@@ -9,4 +9,8 @@
     <string name="_12_months_ago">12 months ago</string>
     <string name="close">Close</string>
     <string name="settings_text">Settings</string>
+    <string name="location">location</string>
+    <string name="none">none</string>
+    <string name="_20_miles">20 miles</string>
+    <string name="photo">photo</string>
 </resources>

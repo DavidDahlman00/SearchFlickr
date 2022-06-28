@@ -15,5 +15,6 @@
         android:scaleType="fitXY"
         android:adjustViewBounds="true"
         android:padding="2dp"
-        tools:src="@tools:sample/backgrounds/scenic"/>
+        tools:src="@tools:sample/backgrounds/scenic"
+        android:contentDescription="@string/photo" />
 </layout>

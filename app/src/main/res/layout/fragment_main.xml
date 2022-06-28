@@ -79,7 +79,8 @@
                 android:inputType="textPersonName"
                 android:text=""
                 android:textColorHint="#A1887F"
-                android:textSize="24sp" />
+                android:textSize="24sp"
+                android:autofillHints="@string/search_button" />
 
             <Button
                 android:id="@+id/main_search_btn"
