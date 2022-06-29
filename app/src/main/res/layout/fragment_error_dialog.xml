@@ -1,15 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <layout  xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools" >
-
-    <data>
-        <variable
-            name="viewModel"
-            type="com.example.searchflickir.main.MainViewModel" />
-
-    </data>
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -20,26 +12,40 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:padding="10dp"
             android:orientation="vertical">
 
+
             <ImageView
-                android:id="@+id/imageView"
+                android:id="@+id/error_dialog_image"
                 android:layout_width="200dp"
                 android:layout_height="200dp"
-                app:imageUrl="@{viewModel.focusedImage.imageUrl}"
-                android:contentDescription="@{viewModel.focusedImage.title}" />
+                android:src="@drawable/ic_no_internet"
+                android:contentDescription="@string/error_image" />
 
             <TextView
-                android:id="@+id/textView"
+                android:id="@+id/error_dialog_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="10dp"
                 android:paddingHorizontal="10dp"
                 android:paddingBottom="20dp"
-                android:gravity="center"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                android:text="@{viewModel.focusedImage.title}" />
+                android:gravity="center"
+                android:text="" />
+
+            <Button
+                android:id="@+id/error_dialog_close_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:paddingEnd="4dp"
+                android:paddingBottom="4dp"
+                android:paddingTop="2dp"
+                android:background="@drawable/btn_selector"
+                android:textColor="@color/colorWhite"
+                android:text="@string/close" />
         </LinearLayout>
 
     </FrameLayout>

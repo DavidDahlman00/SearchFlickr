@@ -6,43 +6,140 @@
 
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:paddingVertical="10dp"
         tools:context=".extraFragments.BottomSheetSettings">
 
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingLeft="40dp"
+            android:paddingVertical="10dp"
+           android:paddingHorizontal="40dp"
+
             android:orientation="vertical">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingVertical="20dp"
-                android:text="@string/settings_num_row" />
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:textColor="@color/colorPrimary"
+                android:text="@string/settings_text" />
 
-            <RadioGroup
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="vertical"
+                >
 
-                <RadioButton
-                    android:id="@+id/settings_radioBtn2"
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="20dp"
+                    android:text="@string/number_of_images_to_return"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <SeekBar
+                    android:id="@+id/settings_num_imagesseekBar"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:min="10"
+                    android:max="200"
+                    android:progress="20"/>
+
+                <TextView
+                    android:id="@+id/settings_num_numtext"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:minHeight="48dp"
-                    android:text="2" />
 
-                <RadioButton
-                    android:id="@+id/settings_radioBtn3"
+                    android:text="20"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:layout_gravity="center"/>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="20dp"
+                    android:text="@string/images_created_after"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <Switch
+                    android:id="@+id/settings_created_afterswitch"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="48dp"
+                    android:text="off" />
+
+                <SeekBar
+                    android:id="@+id/settings_created_after_seekBar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="invisible"
+                    android:min="-120"
+                    android:max="-1"
+                    android:progress="-3"/>
+
+                <TextView
+                    android:id="@+id/settings_created_after_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:minHeight="48dp"
-                    android:text="3" />
-            </RadioGroup>
+                    android:text=""
+                    android:visibility="invisible"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:layout_gravity="center"/>
 
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="20dp"
+                    android:text="@string/location"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <RadioGroup
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/settings_location_radioBtn1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:minHeight="48dp"
+                        android:text="@string/none" />
+
+                    <RadioButton
+                        android:id="@+id/settings_location_radioBtn2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:minHeight="48dp"
+                        android:text="@string/_20_miles" />
+                </RadioGroup>
+
+            </LinearLayout>
         </LinearLayout>
     </FrameLayout>
 

@@ -9,13 +9,13 @@ import okhttp3.OkHttpClient
 import okhttp3.Response
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.GET
+import retrofit2.http.Query
 
 private val BASE_URL = MainViewModel.BASE_URL
 private const val key = ""//Enter private key
-private val tag = MainViewModel.searchTag
 
 
-val okHttpClient = OkHttpClient()
+val okHttpClient: OkHttpClient = OkHttpClient()
     .newBuilder()
     .addInterceptor(RequestInterceptor)
     .build()
@@ -31,8 +31,22 @@ val retrofit: Retrofit = Retrofit.Builder()
     .build()
 
 interface FlickrApiService {
-    @GET("?method=flickr.photos.search&format=json&nojsoncallback=1&text=fish&safe_search=1&per_page=20&api_key=$key")
-    suspend fun getPhotos() :  PhotosSearchResponse
+    @GET("?method=flickr.photos.search&format=json&nojsoncallback=1&safe_search=1&api_key=$key")
+    suspend fun getPhotos(
+        @Query("text") text: String,
+        @Query("per_page") numImages: String,
+        @Query("min_upload_date") minUploadDate: String
+    ) : PhotosSearchResponse
+
+    @GET("?method=flickr.photos.search&format=json&nojsoncallback=1&safe_search=1&api_key=$key")
+    suspend fun getPhotosLocal(
+        @Query("text") text: String,
+        @Query("per_page") numImages: String,
+        @Query("min_upload_date") minUploadDate: String,
+        @Query("lat") latitude: String,
+        @Query("lon") longitude: String,
+        @Query("radius") radius: String,
+    ) : PhotosSearchResponse
 }
 
 object RequestInterceptor : Interceptor {
@@ -42,3 +56,4 @@ object RequestInterceptor : Interceptor {
         return chain.proceed(request)
     }
 }
+

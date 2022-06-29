@@ -11,10 +11,8 @@ import com.example.searchflickir.databinding.GridViewItemBinding
 import com.example.searchflickir.extraFragments.ImageFragment
 import com.example.searchflickir.network.ImageData
 
-class PhotoGridAdapter(fragment : Fragment) : ListAdapter<ImageData,
+class PhotoGridAdapter(val fragment: Fragment) : ListAdapter<ImageData,
         PhotoGridAdapter.ViewHolder>(DiffCallback) {
-
-    val fragment = fragment
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PhotoGridAdapter.ViewHolder {
         return ViewHolder(GridViewItemBinding.inflate(
@@ -32,7 +30,7 @@ class PhotoGridAdapter(fragment : Fragment) : ListAdapter<ImageData,
     ):
         RecyclerView.ViewHolder(binding.root) {
 
-        lateinit var thisPhoto: ImageData
+        private lateinit var thisPhoto: ImageData
         init{
             binding.flickrGridImage.setOnClickListener {
                 openImageDialog()
