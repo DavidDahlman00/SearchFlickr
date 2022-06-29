@@ -4,14 +4,18 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/david/AndroidStudioProjects/SearchFlickir/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1" />
+        <entry key="..\:/Users/david/AndroidStudioProjects/SearchFlickir/app/src/main/res/drawable/btn_selector.xml" value="0.1" />
         <entry key="..\:/Users/david/AndroidStudioProjects/SearchFlickir/app/src/main/res/drawable/ic_baseline_menu_24.xml" value="0.1" />
+        <entry key="..\:/Users/david/AndroidStudioProjects/SearchFlickir/app/src/main/res/drawable/ic_baseline_menu_24_pressed.xml" value="0.1" />
         <entry key="..\:/Users/david/AndroidStudioProjects/SearchFlickir/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1" />
         <entry key="..\:/Users/david/AndroidStudioProjects/SearchFlickir/app/src/main/res/drawable/ic_no_image.xml" value="0.1" />
         <entry key="..\:/Users/david/AndroidStudioProjects/SearchFlickir/app/src/main/res/drawable/ic_no_internet.xml" value="0.1" />
         <entry key="..\:/Users/david/AndroidStudioProjects/SearchFlickir/app/src/main/res/drawable/ic_no_response.xml" value="0.1" />
         <entry key="..\:/Users/david/AndroidStudioProjects/SearchFlickir/app/src/main/res/drawable/loading_animation.xml" value="0.1" />
         <entry key="..\:/Users/david/AndroidStudioProjects/SearchFlickir/app/src/main/res/drawable/loading_img.xml" value="0.1" />
+        <entry key="..\:/Users/david/AndroidStudioProjects/SearchFlickir/app/src/main/res/drawable/menu_selector.xml" value="0.1" />
         <entry key="..\:/Users/david/AndroidStudioProjects/SearchFlickir/app/src/main/res/drawable/search_background.xml" value="0.1" />
+        <entry key="..\:/Users/david/AndroidStudioProjects/SearchFlickir/app/src/main/res/drawable/search_btn_pressed.xml" value="0.1" />
         <entry key="..\:/Users/david/AndroidStudioProjects/SearchFlickir/app/src/main/res/drawable/search_button.xml" value="0.1" />
         <entry key="..\:/Users/david/AndroidStudioProjects/SearchFlickir/app/src/main/res/layout-v26/fragment_bottom_sheet_settings.xml" value="0.28541666666666665" />
         <entry key="..\:/Users/david/AndroidStudioProjects/SearchFlickir/app/src/main/res/layout/activity_main.xml" value="0.134375" />

@@ -37,7 +37,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_baseline_menu_24" />
+                app:srcCompat="@drawable/menu_selector" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.recyclerview.widget.RecyclerView
@@ -87,9 +87,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="48dp"
                 android:layout_gravity="center_vertical"
-                android:background="@drawable/search_button"
+                android:background="@drawable/btn_selector"
+                android:textColor="@color/colorWhite"
                 android:text="@string/search_button"
-                android:textColor="#00838F">
+                >
 
             </Button>
         </LinearLayout>

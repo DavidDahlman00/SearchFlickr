@@ -148,8 +148,10 @@ class BottomSheetSettings(val viewModel: MainViewModel) :
         if ((ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
             ActivityCompat.requestPermissions(requireActivity(), arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), locationPermissionCode)
 
+        }else{
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 5f, this)
         }
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 5f, this)
+
         MainViewModel.useLocation = true
     }
 

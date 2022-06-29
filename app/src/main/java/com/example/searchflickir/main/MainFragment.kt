@@ -1,16 +1,13 @@
 package com.example.searchflickir.main
 
 import android.annotation.SuppressLint
-import android.graphics.PorterDuff
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
-import com.example.searchflickir.R
 import com.example.searchflickir.databinding.FragmentMainBinding
 import com.example.searchflickir.extraFragments.BottomSheetSettings
 import com.example.searchflickir.extraFragments.ErrorDialogFragment
@@ -31,19 +28,6 @@ class MainFragment : Fragment() {
         binding.viewModel = viewModel
 
         binding.photosGrid.adapter = PhotoGridAdapter(this)
-        binding.mainSearchBtn.setOnTouchListener { v, event ->
-            when (event.action) {
-                MotionEvent.ACTION_DOWN -> {
-                    v.background.setColorFilter(R.color.colorAccent, PorterDuff.Mode.SRC_ATOP)
-                    v.invalidate()
-                }
-                MotionEvent.ACTION_UP -> {
-                    v.background.clearColorFilter()
-                    v.invalidate()
-                }
-            }
-            false
-        }
 
         binding.mainMenuBtn.setOnClickListener {
             parentFragmentManager.let { it1 -> settings.show(it1,"settings_bottom_sheet") }

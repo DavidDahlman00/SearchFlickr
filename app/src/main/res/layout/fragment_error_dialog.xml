@@ -43,8 +43,8 @@
                 android:paddingEnd="4dp"
                 android:paddingBottom="4dp"
                 android:paddingTop="2dp"
-                android:background="@drawable/search_button"
-                android:textColor="#00838F"
+                android:background="@drawable/btn_selector"
+                android:textColor="@color/colorWhite"
                 android:text="@string/close" />
         </LinearLayout>
 
