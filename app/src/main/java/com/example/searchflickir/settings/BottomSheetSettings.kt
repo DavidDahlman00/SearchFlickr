@@ -1,4 +1,4 @@
-package com.example.searchflickir.extraFragments
+package com.example.searchflickir.settings
 
 import android.Manifest
 import android.content.Context.LOCATION_SERVICE
@@ -14,6 +14,8 @@ import android.widget.SeekBar
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.viewModels
+import com.example.searchflickir.FlickrApplication
 import com.example.searchflickir.R
 import com.example.searchflickir.databinding.FragmentBottomSheetSettingsBinding
 import com.example.searchflickir.main.MainViewModel
@@ -23,10 +25,13 @@ import java.time.format.DateTimeFormatter
 
 
 
-class BottomSheetSettings(val viewModel: MainViewModel) :
+class BottomSheetSettings(val mainViewModel: MainViewModel) :
     BottomSheetDialogFragment(),
     LocationListener {
 
+    private val settingsViewModel: SettingsViewModel by viewModels {
+      SettingsViewModelFactory((activity as FlickrApplication).repository)
+    }
     private var bottomSheetSettingsBinding : FragmentBottomSheetSettingsBinding?=null
     private lateinit var locationManager: LocationManager
     private val locationPermissionCode = 2
@@ -39,6 +44,10 @@ class BottomSheetSettings(val viewModel: MainViewModel) :
         val view = inflater.inflate(R.layout.fragment_bottom_sheet_settings, container, false)
         val binding = FragmentBottomSheetSettingsBinding.bind(view)
         bottomSheetSettingsBinding = binding
+
+        settingsViewModel.settings.observe(this, { settings ->
+            settings?.let{}
+        })
 
         bottomSheetSettingsBinding?.settingsNumImagesseekBar?.setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener{
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {

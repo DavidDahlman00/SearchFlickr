@@ -9,12 +9,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import com.example.searchflickir.databinding.FragmentMainBinding
-import com.example.searchflickir.extraFragments.BottomSheetSettings
+import com.example.searchflickir.settings.BottomSheetSettings
 import com.example.searchflickir.extraFragments.ErrorDialogFragment
 
 class MainFragment : Fragment() {
 
-    private val viewModel: MainViewModel by viewModels()
+    private val mainViewModel: MainViewModel by viewModels{
+        MainViewModel.MainViewModelFactory()
+    }
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreateView(
@@ -22,10 +24,10 @@ class MainFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         val binding = FragmentMainBinding.inflate(inflater)
-        val settings = BottomSheetSettings(viewModel)
+        val settings = BottomSheetSettings(mainViewModel)
 
         binding.lifecycleOwner = this
-        binding.viewModel = viewModel
+        binding.viewModel = mainViewModel
 
         binding.photosGrid.adapter = PhotoGridAdapter(this)
 
@@ -35,15 +37,15 @@ class MainFragment : Fragment() {
 
         binding.mainSearchBtn.setOnClickListener {
             val searchInput = binding.mainSearchText.text.toString().lowercase()
-            viewModel.searchForNewPhotos(searchInput)
+            mainViewModel.searchForNewPhotos(searchInput)
             Log.d("latlong", "lat: ${MainViewModel.latitude}, long: ${MainViewModel.longitude}")
             Log.d("latlong", "on : ${MainViewModel.useLocation}")
         }
 
-        viewModel.loadingStatus.observe(viewLifecycleOwner) { status ->
+        mainViewModel.loadingStatus.observe(viewLifecycleOwner) { status ->
             Log.d("status", status.toString())
             if (status == FlickrApiStatus.ERROR) {
-                val errorDialogFragment = ErrorDialogFragment(viewModel.status.value.toString())
+                val errorDialogFragment = ErrorDialogFragment(mainViewModel.status.value.toString())
                 errorDialogFragment.show(parentFragmentManager, "errorDialogFragment")
             }
 
