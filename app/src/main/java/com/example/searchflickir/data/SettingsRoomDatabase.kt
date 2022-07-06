@@ -8,7 +8,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
-@Database(entities = [Settings::class], version = 1, exportSchema = false)
+@Database(entities = [Settings::class], version = 2, exportSchema = false)
 abstract class SettingsRoomDatabase: RoomDatabase() {
 
     abstract fun settingsDao() : SettingsDao
@@ -26,9 +26,8 @@ abstract class SettingsRoomDatabase: RoomDatabase() {
         }
 
         suspend fun populateDatabase(settingsDao: SettingsDao){
-            settingsDao.deleteAll()
 
-            val settings = Settings()
+            val settings = Settings(1, count = 1)
             settingsDao.insert(settings)
         }
 
@@ -43,7 +42,7 @@ abstract class SettingsRoomDatabase: RoomDatabase() {
                         scope: CoroutineScope) : SettingsRoomDatabase {
             return INSTANCE ?: synchronized(this) {
                 val instance = Room.databaseBuilder(
-                    context.applicationContext,
+                    context,
                     SettingsRoomDatabase::class.java,
                     "settings_database")
                     .fallbackToDestructiveMigration()

@@ -8,14 +8,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import com.example.searchflickir.FlickrApplication
 import com.example.searchflickir.databinding.FragmentMainBinding
 import com.example.searchflickir.settings.BottomSheetSettings
 import com.example.searchflickir.extraFragments.ErrorDialogFragment
+import com.example.searchflickir.settings.SettingsViewModel
+import com.example.searchflickir.settings.SettingsViewModelFactory
 
 class MainFragment : Fragment() {
 
     private val mainViewModel: MainViewModel by viewModels{
         MainViewModel.MainViewModelFactory()
+    }
+
+    private val settingsViewModel: SettingsViewModel by viewModels {
+        SettingsViewModelFactory((requireActivity().application as FlickrApplication).repository)
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -24,7 +31,7 @@ class MainFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         val binding = FragmentMainBinding.inflate(inflater)
-        val settings = BottomSheetSettings(mainViewModel)
+        val settings = BottomSheetSettings(mainViewModel, settingsViewModel)
 
         binding.lifecycleOwner = this
         binding.viewModel = mainViewModel
@@ -38,8 +45,7 @@ class MainFragment : Fragment() {
         binding.mainSearchBtn.setOnClickListener {
             val searchInput = binding.mainSearchText.text.toString().lowercase()
             mainViewModel.searchForNewPhotos(searchInput)
-            Log.d("latlong", "lat: ${MainViewModel.latitude}, long: ${MainViewModel.longitude}")
-            Log.d("latlong", "on : ${MainViewModel.useLocation}")
+
         }
 
         mainViewModel.loadingStatus.observe(viewLifecycleOwner) { status ->
