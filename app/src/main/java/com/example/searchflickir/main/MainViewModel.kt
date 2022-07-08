@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import com.example.searchflickir.MockedData
 import com.example.searchflickir.network.FlickrApi
 import com.example.searchflickir.network.ImageData
@@ -13,6 +14,7 @@ import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.*
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
+import java.lang.IllegalArgumentException
 import java.lang.reflect.Type
 
 enum class FlickrApiStatus { LOADING, ERROR, DONE }
@@ -92,7 +94,6 @@ class MainViewModel: ViewModel() {
     }
 
     fun searchForNewPhotos(searchText: String){
-        searchTag = searchText
         if (useLocation){ //&& isLocationAllowed){
             getFlickrPhotosLocal(searchText)
         }else{
@@ -107,9 +108,8 @@ class MainViewModel: ViewModel() {
     }
 
     companion object{
-        var BASE_URL = "http://api.flickr.com/services/rest/"
+        const val BASE_URL = "http://api.flickr.com/services/rest/"
         lateinit var focusedImage: ImageData
-        lateinit var searchTag: String
         var numImagesToReturn: String = "20"
         var useUploadDate: Boolean = false
         var minUploadDate: String = "1970-01-01"
@@ -117,5 +117,15 @@ class MainViewModel: ViewModel() {
         var latitude: Double = 59.0
         var longitude: Double = 18.0
         var radius: String = "20"
+    }
+
+    class MainViewModelFactory(): ViewModelProvider.Factory{
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+            if (modelClass.isAssignableFrom(MainViewModel::class.java)){
+                @Suppress("UNCHECKED_CAST")
+                return MainViewModel() as T
+            }
+            throw IllegalArgumentException("Unknown ViewModel class")
+        }
     }
 }

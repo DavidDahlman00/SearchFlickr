@@ -7,7 +7,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingVertical="10dp"
-        tools:context=".extraFragments.BottomSheetSettings">
+        tools:context=".settings.BottomSheetSettings">
 
 
         <LinearLayout
