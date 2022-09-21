@@ -1,5 +1,6 @@
 package com.example.searchflickir.network
 
+import com.example.searchflickir.BuildConfig
 import com.example.searchflickir.main.MainViewModel
 import com.squareup.moshi.Moshi
 import retrofit2.Retrofit
@@ -11,12 +12,13 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Query
 
-private val BASE_URL = MainViewModel.BASE_URL
-private const val key = ""//Enter private key
+private const val BASE_URL = MainViewModel.BASE_URL
+private const val key = BuildConfig.API_KEY
 
 
 val okHttpClient: OkHttpClient = OkHttpClient()
     .newBuilder()
+    .addNetworkInterceptor(CacheInterceptor())
     .addInterceptor(RequestInterceptor)
     .build()
 

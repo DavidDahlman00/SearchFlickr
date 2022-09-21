@@ -8,8 +8,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 
 class FlickrApplication: Application() {
-    val applicationScope = CoroutineScope(SupervisorJob())
-    val database by lazy { SettingsRoomDatabase.getDatabase(this, applicationScope) }
+    private val applicationScope = CoroutineScope(SupervisorJob())
+    private val database by lazy { SettingsRoomDatabase.getDatabase(this, applicationScope) }
     val repository by lazy { SettingsRepository(database.settingsDao()) }
 
 
